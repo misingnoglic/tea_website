@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models import Avg
+
 
 # Create your models here.
 
@@ -13,15 +15,24 @@ class TeaType(models.Model):
     caffeine_level = models.PositiveSmallIntegerField(choices=one_to_five_choices)
     directions = models.TextField()
 
+    def __str__(self):
+        return self.name
+
 
 class Brand(models.Model):
     name = models.CharField(max_length=50, primary_key=True)
     zip_code = models.PositiveSmallIntegerField()
     website = models.URLField()
 
+    def __str__(self):
+        return self.name
+
 
 class Ingredient(models.Model):
     name = models.CharField(max_length=60, primary_key=True)
+
+    def __str__(self):
+        return self.name
 
 
 class Tea(models.Model):
@@ -33,18 +44,37 @@ class Tea(models.Model):
     icon = models.URLField()
     ingredients = models.ManyToManyField(Ingredient)
 
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def avg_rating(self):
+        return self.rating_set.aggregate(Avg('rating'))['rating__avg']
+
+    def __str__(self):
+        return self.name
+
 
 class Picture(models.Model):
     url = models.URLField()
     tea = models.ForeignKey(Tea)
     description = models.TextField()
     user = models.ForeignKey(User)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return "Picture of tea {} - {} - {}".format(self.tea, self.created_at, self.user.get_username())
 
 
 class Rating(models.Model):
     rating = models.PositiveSmallIntegerField(choices=one_to_five_choices)
     tea = models.ForeignKey(Tea)
     user = models.ForeignKey(User)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return "{} star rating for {} by {}".format(self.rating, self.tea, self.user.get_username())
 
     class Meta:
         unique_together = (("user", "tea"),)

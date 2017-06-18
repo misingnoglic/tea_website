@@ -15,6 +15,8 @@ class RatingInline(admin.TabularInline):
 @admin.register(Tea)
 class TeaAdmin(admin.ModelAdmin):
     inlines = [PictureInline, RatingInline]
+    list_display = ('name', 'type', 'brand', 'avg_rating', 'created_at')
+
 
 for m in [TeaType, Brand, Ingredient, Picture, Rating]:
     admin.site.register(m)
