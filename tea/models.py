@@ -45,3 +45,6 @@ class Rating(models.Model):
     rating = models.PositiveSmallIntegerField(choices=one_to_five_choices)
     tea = models.ForeignKey(Tea)
     user = models.ForeignKey(User)
+
+    class Meta:
+        unique_together = (("user", "tea"),)
