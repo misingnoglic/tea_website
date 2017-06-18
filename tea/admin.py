@@ -1,10 +1,7 @@
 from django.contrib import admin
-from .models import Tea, TeaType, Brand, Ingredient, Picture, Rating
+from .models import Tea, TeaType, Brand, Ingredient, Picture, Rating, Comment, Favorite
 
 # Register your models here.
-
-class IngredientInline(admin.TabularInline):
-    model = Ingredient
 
 class PictureInline(admin.TabularInline):
     model = Picture
@@ -12,9 +9,16 @@ class PictureInline(admin.TabularInline):
 class RatingInline(admin.TabularInline):
     model = Rating
 
+class CommentInline(admin.TabularInline):
+    model = Comment
+
+class FavoriteInline(admin.TabularInline):
+    model = Favorite
+
+
 @admin.register(Tea)
 class TeaAdmin(admin.ModelAdmin):
-    inlines = [PictureInline, RatingInline]
+    inlines = [PictureInline, RatingInline, CommentInline, FavoriteInline]
     list_display = ('name', 'type', 'brand', 'avg_rating', 'created_at')
 
 

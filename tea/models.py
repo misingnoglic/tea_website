@@ -78,3 +78,16 @@ class Rating(models.Model):
 
     class Meta:
         unique_together = (("user", "tea"),)
+
+
+class Comment(models.Model):
+    comment = models.TextField()
+    user = models.ForeignKey(User)
+    tea = models.ForeignKey(Tea)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
+class Favorite(models.Model):
+    user = models.ForeignKey(User)
+    tea = models.ForeignKey(Tea)
