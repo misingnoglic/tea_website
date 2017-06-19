@@ -5,7 +5,7 @@ from django.db.models import Avg
 
 # Create your models here.
 
-one_to_five_choices = zip( range(1,5+1), range(1,5+1) )
+one_to_five_choices = list(zip(range(1,5+1), range(1,5+1)))
 
 
 class TeaType(models.Model):
@@ -66,8 +66,8 @@ class Picture(models.Model):
 
 
 class Rating(models.Model):
-    rating = models.PositiveSmallIntegerField(choices=one_to_five_choices)
     tea = models.ForeignKey(Tea)
+    rating = models.PositiveSmallIntegerField(choices=one_to_five_choices)
     user = models.ForeignKey(User)
 
     created_at = models.DateTimeField(auto_now_add=True)

@@ -6,7 +6,7 @@ from .models import Tea, TeaType, Brand, Ingredient, Picture, Rating, Comment, F
 class PictureInline(admin.TabularInline):
     model = Picture
 
-class RatingInline(admin.TabularInline):
+class RatingInline(admin.StackedInline):
     model = Rating
 
 class CommentInline(admin.TabularInline):
