@@ -5,15 +5,15 @@ from django.db.models import Avg
 
 # Create your models here.
 
-one_to_five_choices = list(zip(range(1,5+1), range(1,5+1)))
+zero_to_five_choices = list(zip(range(0, 5 + 1), range(0, 5 + 1)))
 
 
 class TeaType(models.Model):
     name = models.CharField(max_length=20, primary_key=True)
     steeping_temperature = models.PositiveSmallIntegerField()
     steeping_time_minutes = models.PositiveSmallIntegerField()
-    caffeine_level = models.PositiveSmallIntegerField(choices=one_to_five_choices)
-    directions = models.TextField()
+    caffeine_level = models.PositiveSmallIntegerField(choices=zero_to_five_choices)
+    directions = models.TextField(blank=True)
 
     def __str__(self):
         return self.name
@@ -21,8 +21,8 @@ class TeaType(models.Model):
 
 class Brand(models.Model):
     name = models.CharField(max_length=50, primary_key=True)
-    zip_code = models.PositiveSmallIntegerField()
-    website = models.URLField()
+    zip_code = models.PositiveSmallIntegerField(default=0)
+    website = models.URLField(blank=True)
 
     def __str__(self):
         return self.name
@@ -38,11 +38,14 @@ class Ingredient(models.Model):
 class Tea(models.Model):
     name = models.CharField(max_length=100)
     type = models.ForeignKey(TeaType)
-    brand = models.ForeignKey(Brand)
-    story = models.TextField()
-    link = models.URLField()
-    icon = models.URLField()
+    brand = models.ForeignKey(Brand, blank=True, null=True)
+    story = models.TextField(blank=True, null=True)
+    link = models.URLField(blank=True, null=True)
+    icon = models.URLField(blank=True, null=True)
     ingredients = models.ManyToManyField(Ingredient)
+    steeping_time_minutes = models.PositiveSmallIntegerField(blank=True, null=True)
+    steeping_temperature_f = models.PositiveSmallIntegerField(blank=True, null=True)
+    description_directions = models.CharField(max_length=500, blank=True, null=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -67,7 +70,7 @@ class Picture(models.Model):
 
 class Rating(models.Model):
     tea = models.ForeignKey(Tea)
-    rating = models.PositiveSmallIntegerField(choices=one_to_five_choices)
+    rating = models.PositiveSmallIntegerField(choices=zero_to_five_choices)
     user = models.ForeignKey(User)
 
     created_at = models.DateTimeField(auto_now_add=True)
