@@ -30,10 +30,19 @@ class Brand(models.Model):
 
 class Ingredient(models.Model):
     name = models.CharField(max_length=60, primary_key=True)
+    flavoring = models.BooleanField(default=False) # E.g. is it cherry flavoring
+    # For ingredients with differing names but same idea (raspberries vs raspberry)
+    base = models.ForeignKey("Ingredient", related_name="base_ingredient", null=True)
 
     def __str__(self):
         return self.name
 
+    @property
+    def is_base(self):
+        return self.base == None
+
+    class Meta:
+        ordering = ['name']
 
 class Tea(models.Model):
     name = models.CharField(max_length=100)

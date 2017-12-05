@@ -8,7 +8,7 @@ import progressbar
 
 import os
 os.system("del db.sqlite3")
-os.system("del migrations\\0*")
+os.system("del tea\\migrations\\0*")
 
 os.system("python manage.py makemigrations")
 os.system("python manage.py migrate")
@@ -45,7 +45,11 @@ for name, (caffeine, temp, time) in types.items():
 
 
 teas = csv.DictReader(open('teas.csv', encoding='utf8'))
-for line in teas:
+
+bar = progressbar.ProgressBar(max_value=200)
+
+
+for line in bar(teas):
     new_tea = Tea()
     new_tea.name = line['Name'].strip().title()
     type = line["Type (Black/White/Green/etc...)"].strip().capitalize()
@@ -70,9 +74,15 @@ for line in teas:
     ingredients = line["Ingredients (comma separated)"].split(",")
     ingredients = [i.strip().lower().strip(".") for i in ingredients]
     for ing in ingredients:
-        try:
-            ing_obj = Ingredient.objects.get(name=ing)
-        except ObjectDoesNotExist:
-            ing_obj = Ingredient(name=ing)
-            ing_obj.save()
-        new_tea.ingredients.add(ing_obj)
+        if ing:
+            try:
+                ing_obj = Ingredient.objects.get(name=ing)
+            except ObjectDoesNotExist:
+                ing_obj = Ingredient(name=ing)
+                ing_obj.save()
+            new_tea.ingredients.add(ing_obj)
+
+names = [x.name for x in Ingredient.objects.all()]
+os.system("del ingredients_match.csv")
+with open("ingredients_match.csv", "w") as f:
+    for i in names: print(i, file=f)
