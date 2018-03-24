@@ -51,7 +51,7 @@ class Tea(models.Model):
     story = models.TextField(blank=True, null=True)
     link = models.URLField(blank=True, null=True)
     icon = models.URLField(blank=True, null=True)
-    ingredients = models.ManyToManyField(Ingredient)
+    ingredients = models.ManyToManyField(Ingredient, related_name='teas')
     steeping_time_minutes = models.PositiveSmallIntegerField(blank=True, null=True)
     steeping_temperature_f = models.PositiveSmallIntegerField(blank=True, null=True)
     description_directions = models.CharField(max_length=500, blank=True, null=True)
@@ -65,6 +65,8 @@ class Tea(models.Model):
     def __str__(self):
         return self.name
 
+    def str_ingredients(self):
+        return ", ".join([ing.name for ing in Ingredient.objects.filter(teas=self)])
 
 class Picture(models.Model):
     url = models.URLField()

@@ -33,7 +33,8 @@ types = {"Pu'erh": [4,195, 4],
          'Green': [2,183, 3],
          'Black': [5,212, 4],
          'Oolong': [4,195, 4],
-         'Rooibos': [0,212, 5]
+         'Rooibos': [0,212, 5],
+         'Mate': [3, 180, 5],
 }
 for name, (caffeine, temp, time) in types.items():
     new_type = TeaType()
@@ -43,11 +44,9 @@ for name, (caffeine, temp, time) in types.items():
     new_type.steeping_time_minutes = time
     new_type.save()
 
-
 teas = csv.DictReader(open('teas.csv', encoding='utf8'))
 
 bar = progressbar.ProgressBar(max_value=200)
-
 
 for line in bar(teas):
     new_tea = Tea()
@@ -85,4 +84,5 @@ for line in bar(teas):
 names = [x.name for x in Ingredient.objects.all()]
 os.system("del ingredients_match.csv")
 with open("ingredients_match.csv", "w") as f:
-    for i in names: print(i, file=f)
+    for i in names:
+        print(i, file=f)

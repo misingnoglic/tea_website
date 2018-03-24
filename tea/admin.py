@@ -22,7 +22,7 @@ class IngredientInline(admin.TabularInline):
 @admin.register(Tea)
 class TeaAdmin(admin.ModelAdmin):
     inlines = [PictureInline, RatingInline, CommentInline, FavoriteInline]
-    list_display = ('name', 'type', 'brand', 'avg_rating', 'created_at')
+    list_display = ('name', 'type', 'brand', 'avg_rating', 'created_at', 'str_ingredients')
     list_filter = ['type', 'brand']
     search_fields = ['name', 'ingredients__name']
 
