@@ -16,6 +16,8 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "tea_website.settings")
 import django
 django.setup()
 
+from tea_combiner import combine
+
 from tea.models import *
 from django.conf import settings
 
@@ -55,7 +57,7 @@ for line in bar(teas):
     type_obj = TeaType.objects.get(name=type)
     new_tea.type = type_obj
 
-    brand = line['Brand']
+    brand = line['Brand'].strip()
     try:
         brand_obj = Brand.objects.get(name=brand)
     except ObjectDoesNotExist:
@@ -80,6 +82,8 @@ for line in bar(teas):
                 ing_obj = Ingredient(name=ing)
                 ing_obj.save()
             new_tea.ingredients.add(ing_obj)
+
+combine()
 
 names = [x.name for x in Ingredient.objects.all()]
 os.system("del ingredients_match.csv")

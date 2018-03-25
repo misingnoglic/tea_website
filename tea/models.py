@@ -65,6 +65,7 @@ class Tea(models.Model):
     def __str__(self):
         return self.name
 
+    @property
     def str_ingredients(self):
         return ", ".join([ing.name for ing in Ingredient.objects.filter(teas=self)])
 

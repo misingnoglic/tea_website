@@ -1,7 +1,5 @@
 import csv
-import datetime
 from django.core.exceptions import ObjectDoesNotExist
-from tea_website.settings import BASE_DIR
 import progressbar
 
 import os
@@ -10,7 +8,6 @@ from django.db import transaction
 import django
 
 from tea.models import Ingredient, Tea
-from django.conf import settings
 
 
 def combine():
@@ -50,3 +47,6 @@ def combine():
     with open("ingredients_match.csv", "w") as f:
         for i in names:
             print(i, file=f)
+
+if __name__=="__main__":
+    combine()
