@@ -69,6 +69,9 @@ class Tea(models.Model):
     def str_ingredients(self):
         return ", ".join([ing.name for ing in Ingredient.objects.filter(teas=self)])
 
+    def icon_url(self):
+        return "img/icon-{}.svg".format(self.type.name.lower())
+
 class Picture(models.Model):
     url = models.URLField()
     tea = models.ForeignKey(Tea)

@@ -1,4 +1,5 @@
 {% load static %}
+{% load staticfiles %}
 <!DOCTYPE HTML>
 <html>
 
@@ -61,12 +62,12 @@
     		</div>
             </div>
             <div id="wrapper-bouton-icon">
-            	<div id="bouton-ai"><img src="{% static "img/icon-ai.svg" %}" alt="illustrator" title="Black" height="28" width="28"></div>
-            	<div id="bouton-psd"><img src="{% static "img/icon-psd.svg" %}" alt="photoshop" title="Green" height="28" width="28"></div>
-            	<div id="bouton-theme"><img src="{% static "img/icon-themes.svg" %}" alt="theme" title="White" height="28" width="28"></div>
-            	<div id="bouton-font"><img src="{% static "img/icon-font.svg" %}" alt="font" title="Font" height="28" width="28"></div>
-            	<div id="bouton-photo"><img src="{% static "img/icon-photo.svg" %}" alt="photo" title="Photo" height="28" width="28"></div>
-            	<div id="bouton-premium"><img src="{% static "img/icon-premium.svg" %}" alt="premium" title="Premium" height="28" width="28"></div>
+            	<div id="bouton-oolong" class="bouton-filter" onclick="filter(this)" title="Oolong"><img src="{% static "img/icon-oolong.svg" %}" alt="Oolong"  height="28" width="28"></div>
+            	<div id="bouton-herbal" class="bouton-filter" onclick="filter(this)" title="Herbal"><img src="{% static "img/icon-herbal.svg" %}" alt="Herbal"  height="28" width="28"></div>
+            	<div id="bouton-rooibos" class="bouton-filter" onclick="filter(this)" title="Rooibos"><img src="{% static "img/icon-rooibos.svg" %}" alt="Rooibos"  height="28" width="28"></div>
+            	<div id="bouton-white" class="bouton-filter" onclick="filter(this)" title="White"><img src="{% static "img/icon-white.svg" %}" alt="White"  height="28" width="28"></div>
+            	<div id="bouton-green" class="bouton-filter" onclick="filter(this)" title="Green"><img src="{% static "img/icon-green.svg" %}" alt="Green" height="28" width="28"></div>
+            	<div id="bouton-black" class="bouton-filter" onclick="filter(this)" title="Black"><img src="{% static "img/icon-black.svg" %}" alt="Black" height="28" width="28"></div>
 			</div>
     	</div>
     </div>
@@ -123,7 +124,7 @@
 					<section class="work">
                         {% for tea in object_list %}
 
-                            <figure class="white">
+                            <figure class="white" teatype="{{ tea.type }}">
                                 <a href="details.html">
                                     <img src="http://lorempixel.com/255/199/cats" alt="" />
                                     <dl>
@@ -134,7 +135,7 @@
                                     </dl>
                                 </a>
                                 <div id="wrapper-part-info">
-                                    <div class="part-info-image"><img src="{% static "img/icon-premium.svg" %}" alt="" width="28" height="28"/></div>
+                                    <div class="part-info-image"><img src="{% static tea.icon_url %}" alt="" width="28" height="28"/></div>
                                     <div id="part-info">{{ tea.name }}</div>
                                 </div>
                         </figure>
@@ -226,7 +227,31 @@
 	<script>
 
 
+function filter(elem){
+    const clicked = elem.getAttribute("clicked") === "true";
+    elem.setAttribute("clicked", (!clicked).toString());
+    var filterItems = [];
+    const types = document.getElementsByClassName("bouton-filter");
+    var teaType;
+    for (var i = 0; i<types.length; i++) {
+        teaType = types[i];
+        if (teaType.getAttribute("clicked")==="true"){
+            filterItems.push(teaType.getAttribute("title"));
+        }
+    }
+    const items = document.getElementsByClassName("white");
+    var tea;
+    for (var i = 0; i<items.length; i++) {
+        tea = items[i];
+        if (filterItems.length===0 || filterItems.indexOf(tea.getAttribute("teatype")) > -1){
+            tea.style.display = null;
+        }
+        else{
+            tea.style.display = "none";
+        }
 
+    }
+}
 
 
 /* PRELOADER

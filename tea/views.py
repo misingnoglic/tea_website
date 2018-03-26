@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
 from .models import Tea
 # Create your views here.
 
@@ -14,3 +15,10 @@ class TeaListView(ListView):
     """
     model = Tea
     template_name = "index.html"
+
+class TeaDetailView(DetailView):
+    """
+    View for listing the compositions - uses build in ListView
+    """
+    model = Tea
+    template_name = "detail.html"
