@@ -50,11 +50,11 @@ class Tea(models.Model):
     brand = models.ForeignKey(Brand, blank=True, null=True)
     story = models.TextField(blank=True, null=True)
     link = models.URLField(blank=True, null=True)
-    icon = models.URLField(blank=True, null=True)
+    main_picture = models.URLField(blank=True, null=True)
     ingredients = models.ManyToManyField(Ingredient, related_name='teas')
     steeping_time_minutes = models.PositiveSmallIntegerField(blank=True, null=True)
     steeping_temperature_f = models.PositiveSmallIntegerField(blank=True, null=True)
-    description_directions = models.CharField(max_length=500, blank=True, null=True)
+    description_directions = models.TextField(blank=True, null=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
