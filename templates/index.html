@@ -125,8 +125,12 @@
                         {% for tea in object_list %}
 
                             <figure class="white" teatype="{{ tea.type }}">
-                                <a href="details.html">
-                                    <img src="http://lorempixel.com/255/199/cats" alt="" />
+                                {% comment %}<a href="details.html">{% endcomment%}
+                                {% if tea.icon %}
+                                    <img src="{{ tea.icon }}" alt="" width="255" />
+                                {% else %}
+                                    <img src="http://lorempixel.com/255/255/cats" alt="" />
+                                {% endif %}
                                     <dl>
                                         <dt>{{ tea.name }}</dt>
                                         <dd>Ingredients: {{ tea.str_ingredients }}</dd>

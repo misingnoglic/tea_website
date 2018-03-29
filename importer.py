@@ -16,14 +16,14 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "tea_website.settings")
 import django
 django.setup()
 
-from tea_combiner import combine
+from tea_combiner import combine as combine_ingredients
+from add_pictures import import_pics
 
 from tea.models import *
-from django.conf import settings
 
 # Add the tea types:
 # times from http://www.artoftea.com/what-is-tea/recommended-steep-times/
-# caffine from https://spoonuniversity.com/lifestyle/how-much-caffeine-is-actually-in-your-tea
+# caffeine from https://spoonuniversity.com/lifestyle/how-much-caffeine-is-actually-in-your-tea
 # but also made up a little by me
 
 # each is a list, caffeine level 0-5, steeping temp, and steeping time
@@ -83,7 +83,8 @@ for line in bar(teas):
                 ing_obj.save()
             new_tea.ingredients.add(ing_obj)
 
-combine()
+combine_ingredients()
+import_pics()
 
 names = [x.name for x in Ingredient.objects.all()]
 os.system("del ingredients_match.csv")
