@@ -270,7 +270,7 @@ function preloader() {
         {% for tea in object_list %}
             {% if tea.main_picture %}
                 x = new Image();
-                x.src = {{ tea.main_picture }}
+                x.src = "{{ tea.main_picture }}"
                 images.push(x);
             {% endif %}
         {% endfor %}
