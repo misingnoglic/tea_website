@@ -12,11 +12,11 @@ def import_pics():
     for line in teas:
         if line["Picture"]:
             try:
-                tea_obj = Tea.objects.get(name=line['Name'].strip().title())
+                tea_obj = Tea.objects.get(name=line['Name'].strip().title(), brand__name=line['Brand'].strip())
             except:
                 import pdb;pdb.set_trace()
-            tea_obj.icon = line["Picture"]
+            tea_obj.main_picture = line["Picture"]
             tea_obj.save()
 
-if __name__=="__main__":
+if __name__ == "__main__":
     import_pics()
